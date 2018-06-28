@@ -9,13 +9,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.17.0",
+    "axios": "^0.17.1",
     "discord.js": "^11.2.1",
     "disnode-lang": "^0.2.0",
     "disnode-logger": "^0.1.1",
     "erlpack": "github:hammerandchisel/erlpack",
+    "ffmpeg-binaries": "^3.2.2-3",
     "mongodb": "^2.2.33",
+    "node-opus": "^0.2.7",
+    "node.js": "0.0.0",
     "numeral": "^2.0.6",
-    "uws": "^8.14.1"
+    "uws": "^8.14.1",
+    "youtube-search": "^1.0.10",
+    "ytdl-core": "^0.18.2"
   }
 }

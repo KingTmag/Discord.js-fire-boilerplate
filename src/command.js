@@ -12,31 +12,31 @@ class CommandManager extends EventEmitter {
       this.parseMessage(msg);
     })
   }
-  getStats(){
+  getStats() {
     return {
       seen: numeral(this.seen).format('0,0'),
       cmds: numeral(this.commands).format('0,0')
     };
   }
-  parseMessage(msg){
-    if(msg.author.bot)return;
-    if(msg.content == "<@" + this.bot.user.id + ">"){
+  parseMessage(msg) {
+    if (msg.author.bot) return;
+    if (msg.content == "<@" + this.bot.user.id + ">") {
       this.emit("mention", msg);
       return;
     }
     var testpref = msg.content.slice(0, this.prefix.length);
-    if(testpref == this.prefix){
+    if (testpref == this.prefix) {
       var params = GetParams(msg.content);
 
       var SpaceIndex = msg.content.length;
-      if( msg.content.indexOf(" ") != -1){
+      if (msg.content.indexOf(" ") != -1) {
         SpaceIndex = msg.content.indexOf(" ");
       }
       var firstWord = msg.content.substring(0, SpaceIndex);
       firstWord = Sanitize(firstWord);
-      if(this.prefix.length == 1){
+      if (this.prefix.length == 1) {
         firstWord = firstWord.substr(1);
-      }else {
+      } else {
         firstWord = firstWord.substr(this.prefix.length);
       }
       firstWord = firstWord.toLowerCase();
@@ -50,43 +50,44 @@ class CommandManager extends EventEmitter {
     }
   }
 }
-function GetParams(raw){
+
+function GetParams(raw) {
   var parms = [];
   var lastSpace = -1;
   var end = false;
-  while(!end){
+  while (!end) {
     var BeginSpace = raw.indexOf(" ", lastSpace);
     var EndSpace = -1;
-    if(BeginSpace != -1){
-       EndSpace = raw.indexOf(" ", BeginSpace + 1);
-       if(EndSpace == -1){
-         EndSpace = raw.length;
-         end = true;
-       }
-       var param = raw.substring(BeginSpace + 1, EndSpace);
-       var containsQuoteIndex = param.indexOf('"');
-       var BeginQuote = -1;
-       var EndQuote = -1;
-       if(containsQuoteIndex != -1){
-         BeginQuote = raw.indexOf('"', BeginSpace);
-         EndQuote = raw.indexOf('"', BeginQuote + 1);
-         if(EndQuote != -1){
-           BeginSpace = BeginQuote;
-           EndSpace = EndQuote;
-           param = raw.substring(BeginSpace + 1, EndSpace);
-         }
-       }
-       lastSpace = EndSpace;
-       if(param != ""){
-         parms.push(param);
-       }else{
-       }
-    }else{
+    if (BeginSpace != -1) {
+      EndSpace = raw.indexOf(" ", BeginSpace + 1);
+      if (EndSpace == -1) {
+        EndSpace = raw.length;
+        end = true;
+      }
+      var param = raw.substring(BeginSpace + 1, EndSpace);
+      var containsQuoteIndex = param.indexOf('"');
+      var BeginQuote = -1;
+      var EndQuote = -1;
+      if (containsQuoteIndex != -1) {
+        BeginQuote = raw.indexOf('"', BeginSpace);
+        EndQuote = raw.indexOf('"', BeginQuote + 1);
+        if (EndQuote != -1) {
+          BeginSpace = BeginQuote;
+          EndSpace = EndQuote;
+          param = raw.substring(BeginSpace + 1, EndSpace);
+        }
+      }
+      lastSpace = EndSpace;
+      if (param != "") {
+        parms.push(param);
+      } else {}
+    } else {
       end = true;
     }
   }
   return parms;
 }
+
 function Sanitize(string) {
   while (string.indexOf("../") != -1) {
     string = string.replace("../", "");
